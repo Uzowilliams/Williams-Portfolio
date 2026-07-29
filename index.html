@@ -411,17 +411,17 @@
       <div class="work-item reveal">
         <span class="wtag">Automation</span>
         <div><h3>Lead-to-Deal Pipeline</h3><p>Full workflow moving a lead from first contact to closed deal with auto-tagging and follow-up.</p></div>
-        <a class="warrow" href="https://drive.google.com/drive/folders/1xotAY56qR2olSXtD9h2B03dj_1IgosVN?usp=sharing" target="_blank" rel="noopener">View details →</a>
+        <a class="warrow" href="PASTE_DRIVE_LINK_HERE_1" target="_blank" rel="noopener">View details →</a>
       </div>
       <div class="work-item reveal">
         <span class="wtag">Booking</span>
         <div><h3>Group Booking Calendar</h3><p>Calendar system letting clients book group sessions without manual scheduling emails.</p></div>
-        <a class="warrow" href="https://drive.google.com/drive/folders/1cy6ILRLGt3nqJ3fTUFUvHmBi01KJ5LeD?usp=sharing" target="_blank" rel="noopener">View details →</a>
+        <a class="warrow" href="PASTE_DRIVE_LINK_HERE_2" target="_blank" rel="noopener">View details →</a>
       </div>
       <div class="work-item reveal">
         <span class="wtag">Email Deliverability</span>
         <div><h3>Dedicated Email Sending Domain</h3><p>Configured SPF, DKIM, and MX records, then managed domain warmup for better inbox placement.</p></div>
-        <a class="warrow" href="https://drive.google.com/drive/folders/1bSkUSabHbzCSrRIDblV9Bdp-37lhWztO?usp=sharing" target="_blank" rel="noopener">View details →</a>
+        <a class="warrow" href="PASTE_DRIVE_LINK_HERE_3" target="_blank" rel="noopener">View details →</a>
       </div>
     </div>
   </div>
@@ -448,12 +448,12 @@
       <h2>Let's automate your business.</h2>
       <p class="lead">Tell me what you need help with, and I'll get back to you within 24 hours.</p>
     </div>
-    <form class="form reveal" onsubmit="return false;">
-      <div><label>Name</label><input type="text" placeholder="Your name"></div>
-      <div><label>Email</label><input type="email" placeholder="you@email.com"></div>
+    <form class="form reveal" id="contactForm">
+      <div><label>Name</label><input type="text" name="name" placeholder="Your name" required></div>
+      <div><label>Email</label><input type="email" name="email" placeholder="you@email.com" required></div>
       <div>
         <label>What do you need help with?</label>
-        <select>
+        <select name="service">
           <option>Funnel Build</option>
           <option>Workflow Automation</option>
           <option>Booking System</option>
@@ -461,11 +461,44 @@
           <option>Other</option>
         </select>
       </div>
-      <div><label>Message</label><textarea placeholder="A bit about your project..."></textarea></div>
-      <button type="submit">Send Message</button>
-      <span class="form-note">→ Wired to a workflow: create contact, tag by service, send welcome email/SMS</span>
+      <div><label>Message</label><textarea name="message" placeholder="A bit about your project..."></textarea></div>
+      <button type="submit" id="formSubmitBtn">Send Message</button>
+      <span class="form-note" id="formStatus">→ Submissions are saved straight to a Google Sheet</span>
     </form>
   </div>
+
+  <script>
+    // PASTE your Google Apps Script Web App URL below, between the quotes
+    const SHEET_SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+    document.getElementById('contactForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const btn = document.getElementById('formSubmitBtn');
+      const status = document.getElementById('formStatus');
+      const formData = new FormData(this);
+
+      btn.textContent = "Sending...";
+      btn.disabled = true;
+
+      fetch(SHEET_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: formData
+      }).then(function(){
+        btn.textContent = "Sent ✓";
+        status.textContent = "→ Thanks! I'll get back to you within 24 hours.";
+        document.getElementById('contactForm').reset();
+        setTimeout(function(){
+          btn.textContent = "Send Message";
+          btn.disabled = false;
+        }, 3000);
+      }).catch(function(){
+        btn.textContent = "Send Message";
+        btn.disabled = false;
+        status.textContent = "→ Something went wrong. Please try again.";
+      });
+    });
+  </script>
 </section>
 
 <footer>
