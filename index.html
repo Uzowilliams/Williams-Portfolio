@@ -333,7 +333,7 @@
       <a href="#contact">Contact</a>
     </div>
     <div class="nav-right">
-      <a href="https://link.msgsndr.com/widget/bookings/auto-confirmation" class="nav-cta">Book a call</a>
+      <a href="#contact" class="nav-cta" data-book="true">Book a call</a>
       <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span></button>
     </div>
   </div>
@@ -343,7 +343,7 @@
     <a href="#work">Work</a>
     <a href="#toolkit">Toolkit</a>
     <a href="#contact">Contact</a>
-    <a href="https://link.msgsndr.com/widget/bookings/auto-confirmation">Book a call</a>
+    <a href="#contact" data-book="true">Book a call</a>
   </div>
 </nav>
 
@@ -355,7 +355,7 @@
     <h1 class="load-in" style="animation-delay:0.25s;" aria-label="I build systems that never forget to follow up with a lead."><span id="typeTarget" aria-hidden="true"></span></h1>
     <p class="lead type-reveal" id="heroLead">Funnels, pipelines, AI chatbots and workflows in n8n and GoHighLevel that capture, tag, and move leads automatically — so nothing sits untouched in your CRM.</p>
     <div class="hero-ctas type-reveal" id="heroCtas">
-      <a href="https://link.msgsndr.com/widget/bookings/auto-confirmation" class="btn-primary">Book a Free Consultation</a>
+      <a href="#contact" class="btn-primary" data-book="true">Book a Free Consultation</a>
       <a href="#work" class="btn-secondary">See the work <span class="arrow">→</span></a>
     </div>
 
@@ -616,9 +616,7 @@
         </div>
         <div><label for="b-message">Anything I should know? (optional)</label><textarea id="b-message" name="message" placeholder="A short note about your business..."></textarea></div>
         <button type="submit" class="submit-btn" data-label="Request Call">Request Call</button>
-        <span class="form-note" role="status" aria-live="polite">→ I'll confirm a time by email within 24 hours.</span>
-        <p class="alt-book">Prefer to pick a slot yourself? <a href="https://link.msgsndr.com/widget/bookings/auto-confirmation">Use my live booking calendar</a>.</p>
-      </form>
+        <span class="form-note" role="status" aria-live="polite">→ I'll confirm a time by email within 24 hours.</span>      </form>
     </div>
   </div>
 </section>
@@ -638,7 +636,7 @@
      2) The Google Sheet script is kept as a backup, so you never
         lose a lead if n8n is down.
      ============================================================ */
-  const N8N_WEBHOOK_URL = "https://n8n.uzoholdings.online/webhook/portfolio-form";
+  const N8N_WEBHOOK_URL = "PASTE_YOUR_N8N_WEBHOOK_URL_HERE";
   const SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz3z0F_QjoMLoNAQj5O1SiKaT1lS99Bs5JzIqsNmgJLSwpZ726QAG41UkJnIINVbkXbwA/exec";
 
   const n8nReady = /^https?:\/\//.test(N8N_WEBHOOK_URL);
@@ -739,6 +737,13 @@
       document.querySelectorAll('form.form').forEach(function(f){
         f.hidden = f.id !== tab.dataset.target;
       });
+    });
+  });
+
+  // "Book a call" buttons: scroll to the contact section and open the Request a call tab
+  document.querySelectorAll('[data-book]').forEach(function(link){
+    link.addEventListener('click', function(){
+      document.getElementById('tabBook').click();
     });
   });
 
